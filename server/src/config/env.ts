@@ -1,4 +1,5 @@
-
+import { config } from "dotenv"
+config()
 interface env {
     PORT: string
     MONGO_URI: string
@@ -6,7 +7,7 @@ interface env {
     NODE_ENV:string
 }
 const env :env ={
-    PORT : process.env.PORT || '',
+    PORT : process.env.PORT || '3000',
     MONGO_URI: process.env.MONGO_URI || '',
     NODE_ENV: process.env.NODE_ENV || '',
     JWT_SECRET:process.env.JWT_SECRET ||''

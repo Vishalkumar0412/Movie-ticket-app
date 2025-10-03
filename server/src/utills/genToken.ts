@@ -4,13 +4,13 @@ import { ApiResponse } from "../shared/types/apiResponse.type";
 import env from "../config/env";
 
 export const genToken = async (
-    userId: string | number | unknown,
-    message: string,
-    res: Response
+    userId: unknown,
+    res: Response<ApiResponse<null>>,
+    message: string
 ) => {
     try {
         const token = jwt.sign(
-            { userId }, // Pass as object payload
+            { userId },
             env.JWT_SECRET,
             { expiresIn: "1d" }
         );

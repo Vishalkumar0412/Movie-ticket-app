@@ -61,7 +61,7 @@ export const signup = async (
 
 export const login = async (
   req: Request,
-  res: Response<ApiResponse<unknown>>
+  res: Response<ApiResponse<null>>
 ) => {
   const result = loginSchema.safeParse(req.body);
   if (result.error) {
@@ -84,7 +84,7 @@ export const login = async (
         success:false
       })
     }
-    genToken(user._id,res,`Welcome back ${user.name}`)
+   return await  genToken(user._id,res,`Welcome back ${user.name}`)
   } catch (error: unknown) {
     let message = "Server error In login";
 
