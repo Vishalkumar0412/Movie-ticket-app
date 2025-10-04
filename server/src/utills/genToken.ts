@@ -3,14 +3,15 @@ import jwt from 'jsonwebtoken'
 import { ApiResponse } from "../shared/types/apiResponse.type";
 import env from "../config/env";
 
-export const genToken = async (
-    userId: unknown,
+export const genToken =  (
+    userId: string | number | unknown,
+    role: string,
     res: Response<ApiResponse<null>>,
     message: string
 ) => {
     try {
         const token = jwt.sign(
-            { userId },
+            { userId, role },
             env.JWT_SECRET,
             { expiresIn: "1d" }
         );

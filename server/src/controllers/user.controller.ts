@@ -7,9 +7,9 @@ import {
   signupSchema,
 } from "../shared/validator/user.validators";
 import { ApiResponse } from "../shared/types/apiResponse.type";
-import z from "zod";
+
 import User from "../models/user.model";
-import { parse } from "path";
+
 import { genToken } from "../utills/genToken";
 
 export const signup = async (
@@ -59,10 +59,7 @@ export const signup = async (
   }
 };
 
-export const login = async (
-  req: Request,
-  res: Response<ApiResponse<null>>
-) => {
+export const login = async (req: Request, res: Response<ApiResponse<null>>) => {
   const result = loginSchema.safeParse(req.body);
   if (result.error) {
     return res.status(400).json({
@@ -73,18 +70,20 @@ export const login = async (
   }
   try {
     const { email, password }: loginInput = result.data;
-    const user=await User.findOne({email});
-    if(!user){
-      return res.status(400).json({message:"Email or password wrong",success:false})
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res
+        .status(400)
+        .json({ message: "Email or password wrong", success: false });
     }
-    const isPasswordMatch = await bcrypt.compare(password,user.password)
-    if(!isPasswordMatch){
+    const isPasswordMatch = await bcrypt.compare(password, user.password);
+    if (!isPasswordMatch) {
       return res.status(400).json({
-        message:"Email or password wrong",
-        success:false
-      })
+        message: "Email or password wrong",
+        success: false,
+      });
     }
-   return await  genToken(user._id,res,`Welcome back ${user.name}`)
+    return  genToken(user._id,user.role, res, `Welcome back ${user.name}`);
   } catch (error: unknown) {
     let message = "Server error In login";
 
@@ -97,5 +96,36 @@ export const login = async (
       message,
       errors: error,
     });
+  }
+};
+export const getProfile = async (
+  req: Request,
+  res: Response<ApiResponse<unknown>>
+) => {
+  const userId=req.userId;
+    if(!userId){
+      return res.status(400).json({
+        success:false,
+        message:"user not authorized"
+      })
+    }
+  try {
+  const user=await User.findById(userId).select("-password")
+  if(!user){
+    return res.status(404).json({
+      message:"user not found",
+      success:false
+    })
+  }
+  return res.status(200).json({
+    message:"user fetched successfully",
+    success:true,
+    data:user
+  })
+  } catch (error) {
+    return res.status(500).json({
+      message:"server error in fetching user",
+      success:false
+    })
   }
 };
