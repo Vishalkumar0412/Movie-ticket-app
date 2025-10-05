@@ -8,6 +8,7 @@ export interface IShowtime extends Document {
   seats: {
     seatLabel: string; // e.g., "A1", "B2"
     isBooked: boolean;
+    _id:Types.ObjectId
   }[];
 }
 

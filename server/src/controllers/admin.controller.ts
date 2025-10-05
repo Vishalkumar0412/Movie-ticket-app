@@ -10,6 +10,14 @@ import Movie, { movieType } from "../models/movie.model";
 import { generateSeats } from "../utills/genSeets";
 import Showtime from "../models/showtime.model";
 import Theater from "../models/theater.model";
+import cloudinary from 'cloudinary'
+import env from '../config/env'
+
+cloudinary.v2.config({
+  cloud_name: env.CLOUDINARY_CLOUD_NAME,
+  api_key: env.CLOUDINARY_API_KEY,
+  api_secret: env.CLOUDINARY_API_SECRET,
+})
 
 export const addMovie = async (
   req: Request,
@@ -118,3 +126,20 @@ export const addShowTime=async(req: Request,
     });
   }
 };
+
+export const uploadMedia = async (req: Request, res: Response<ApiResponse<unknown>>) => {
+  try {
+    const file = (req as any).file as Express.Multer.File
+    if (!file) return res.status(400).json({ success: false, message: 'No file provided' })
+    const uploadResult = await cloudinary.v2.uploader.upload_stream({ resource_type: 'auto' }, (error, result) => {
+      if (error) {
+        return res.status(500).json({ success: false, message: 'Upload failed', errors: error })
+      }
+      return res.status(200).json({ success: true, message: 'Uploaded', data: result })
+    })
+    // write buffer to stream
+    uploadResult.end(file.buffer)
+  } catch (error) {
+    return res.status(500).json({ success: false, message: 'Server error in upload' })
+  }
+}

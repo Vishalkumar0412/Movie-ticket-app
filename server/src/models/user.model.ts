@@ -4,6 +4,7 @@ export interface IUser extends Document {
   name: string;
   email: string;
   password: string;
+  profiePicture :string;
   role: "USER" | "ADMIN";
   bookingHistory: Types.ObjectId[];
 }
@@ -14,6 +15,7 @@ const UserSchema = new Schema<IUser>(
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     role: { type: String, enum: ["USER", "ADMIN"], default: "USER" },
+    profiePicture:{type:String},
     bookingHistory: [{ type: Schema.Types.ObjectId, ref: "Booking" }],
   },
   { timestamps: true }
