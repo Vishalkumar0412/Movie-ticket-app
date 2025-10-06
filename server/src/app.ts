@@ -1,29 +1,22 @@
-import {config} from 'dotenv'
+import { config } from 'dotenv'
 import express from 'express'
 import cookieParser from 'cookie-parser'
+import cors from 'cors'
 import router from './routes/index.routes'
 import env from './config/env'
 config()
-const app=express()
+const app = express()
 app.use(express.json())
 app.use(cookieParser())
 
-// Minimal CORS to support credentialed requests from the frontend
-app.use((req, res, next) => {
-  const origin = req.headers.origin as string | undefined
-  const allowedOrigin = process.env.FRONTEND_ORIGIN || '*'
-  if (origin && (allowedOrigin === '*' || origin === allowedOrigin)) {
-    res.header('Access-Control-Allow-Origin', origin)
-  } else if (allowedOrigin !== '*') {
-    res.header('Access-Control-Allow-Origin', allowedOrigin)
-  }
-  res.header('Vary', 'Origin')
-  res.header('Access-Control-Allow-Credentials', 'true')
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization')
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS')
-  if (req.method === 'OPTIONS') return res.sendStatus(200)
-  next()
-})
-app.use('/api/v1',router)
+// Use official cors middleware
+app.use(cors({
+  origin: process.env.FRONTEND_ORIGIN || '*',
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization'],
+}))
+
+app.use('/api/v1', router)
 
 export default app
