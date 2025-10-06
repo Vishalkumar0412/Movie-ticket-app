@@ -4,10 +4,12 @@ export const signupSchema = z.object({
   name: z
     .string({ required_error: "Name is required" })
     .min(3, { message: "The name must be at least 3 characters long" })
-    .max(40, { message: "The name must not be longer than 40 characters" }),
+    .max(40, { message: "The name must not be longer than 40 characters" })
+    ,
   email: z
     .string({ required_error: "Email is required" })
-    .email({ message: "Invalid email address" }),
+    .email({ message: "Invalid email address" })
+    .toLowerCase(),
   password: z
     .string({ required_error: "Password is required" })
     .min(6, { message: "Password must be at least 6 characters long" })
@@ -21,7 +23,7 @@ export const signupSchema = z.object({
 export type SignupInput = z.infer<typeof signupSchema>;
 
 export const loginSchema = z.object({
-  email: z.string({ required_error: "Email is required" }).email({ message: "Invalid email" }),
+  email: z.string({ required_error: "Email is required" }).email({ message: "Invalid email" }).toLowerCase(),
   password: z
     .string({ required_error: "Password is required" })
     .min(6,"Password must be 6 digit long")
