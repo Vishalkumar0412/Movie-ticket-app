@@ -144,9 +144,6 @@ Password: User@123
 
 ---
 
-## Deadline
-Submit by **Tuesday, 4:00 PM**
-
 ---
 
 ## How to add screenshots
