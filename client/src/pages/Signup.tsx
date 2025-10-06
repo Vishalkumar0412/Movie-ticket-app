@@ -24,7 +24,7 @@ export default function Signup() {
   })
 
   const passwordValue = watch("password")
-
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const navigate = useNavigate()
@@ -71,12 +71,26 @@ export default function Signup() {
             {/* Password */}
             <div>
               <Label htmlFor="password">Password</Label>
-              <Input
-                id="password"
-                type="password"
-                {...register("password")}
-                placeholder="********"
-              />
+              <div className="relative">
+                <Input
+                  id="password"
+                  type={isPasswordVisible ? "text" : "password"}
+                  {...register("password")}
+                  placeholder="********"
+                />
+                <button
+                  type="button"
+                  className="absolute right-2 top-1/2 -translate-y-1/2"
+                  onClick={() => setIsPasswordVisible(!isPasswordVisible)}
+                  tabIndex={-1}
+                >
+                  {isPasswordVisible ? (
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.875 18.825A10.05 10.05 0 0112 19c-5.523 0-10-4.477-10-10a9.96 9.96 0 012.122-6.13m1.664-1.664A9.96 9.96 0 0112 3c5.523 0 10 4.477 10 10 0 2.21-.713 4.253-1.922 5.91M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                  ) : (
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3l18 18M9.88 9.88A3 3 0 0115 12m-3 3a3 3 0 01-3-3m0 0a3 3 0 013-3m0 0a3 3 0 013 3m0 0a3 3 0 01-3 3m0 0a3 3 0 01-3-3m0 0a3 3 0 013-3m0 0a3 3 0 013 3" /></svg>
+                  )}
+                </button>
+              </div>
 
               {/* Password rules → only show while typing */}
               {passwordValue && (

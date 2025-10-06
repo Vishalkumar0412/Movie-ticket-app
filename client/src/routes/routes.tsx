@@ -16,6 +16,7 @@ import AddMovie from '@/pages/admin/AddMovie'
 import AddTheater from '@/pages/admin/AddTheater'
 import AddShowtime from '@/pages/admin/AddShowtime'
 import MyBookings from '@/pages/MyBookings'
+import RequireUser from './RequireUser'
 // import RequireAuth from '@/routes/RequireAuth'
 
 export const router = createBrowserRouter([
@@ -25,7 +26,7 @@ export const router = createBrowserRouter([
         children:[
             {
                 path:"/",
-                element:<Home/>
+                element:<RequireUser><Home/></RequireUser>
             },
             {
                 path:'/login',

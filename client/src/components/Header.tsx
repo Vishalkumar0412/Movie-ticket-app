@@ -35,14 +35,16 @@ const Header = () => {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-6">
-            <Link 
+            {user && user.role !== 'ADMIN' && (
+              <Link 
               to="/movies" 
               className={`hover:text-blue-600 transition-colors ${
                 isActive('/movies') ? 'text-blue-600 font-medium' : 'text-gray-600'
               }`}
-            >
+              >
               Movies
-            </Link>
+              </Link>
+            )}
             
             {user?.role === 'ADMIN' ? (
               <>
@@ -72,7 +74,7 @@ const Header = () => {
                 </Link>
               </>
             ) : (
-              <Link 
+             ( user && user.role === 'USER') && <Link 
                 to="/my-bookings"
                 className={`hover:text-blue-600 transition-colors ${
                   isActive('/my-bookings') ? 'text-blue-600 font-medium' : 'text-gray-600'
