@@ -55,14 +55,19 @@ Create `.env` files for both frontend and backend:
 
 #### Backend (`server/.env`)
 ```
+PORT=3000
 MONGO_URI=your_mongodb_connection_string
 JWT_SECRET=your_jwt_secret
-PORT=5000
+NODE_ENV=development
+CLOUDINARY_CLOUD_NAME=your_cloudinary_cloud_name
+CLOUDINARY_API_KEY=your_cloudinary_api_key
+CLOUDINARY_API_SECRET=your_cloudinary_api_secret
+FRONTEND_ORIGIN=http://localhost:5173
 ```
 
 #### Frontend (`client/.env`)
 ```
-VITE_API_URL=https://your-backend-api-url
+VITE_API_BASE_URL=http://localhost:3000/api/v1
 ```
 
 ### 3. Install dependencies
