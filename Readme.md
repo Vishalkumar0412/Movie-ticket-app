@@ -102,13 +102,13 @@ npm run dev
 
 ### Admin
 ```
-Email: admin@test.com
+Email: admin@gmail.com
 Password: Admin@123
 ```
 
 ### User
 ```
-Email: user@test.com
+Email: user@gmail.com
 Password: User@123
 ```
 
@@ -227,8 +227,13 @@ GET  /api/v1/booking/my    # View bookings
 
 ## Test Account
 ```
-Email: test@example.com
-Password: Test@123
+Email: admin@gmail.com
+Password: Admin@123
+```
+
+```
+Email: user@gmail.com
+Password: User@123
 ```
 
 ## Important Notes
