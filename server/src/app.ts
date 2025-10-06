@@ -11,7 +11,7 @@ app.use(cookieParser())
 
 // Use official cors middleware
 app.use(cors({
-  origin: process.env.FRONTEND_ORIGIN || '*',
+  origin: process.env.NODE_ENV === 'development' ? '*' : process.env.FRONTEND_ORIGIN,
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization'],
