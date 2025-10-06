@@ -135,12 +135,16 @@ export const logout = async (
   res: Response<ApiResponse<null>>
 ) => {
   try {
-    return res.status(200).cookie("token", "", {maxAge:0}).json({
-            message:"Logged out successfully.",
-            success:true
-        })
-    // return res.status(200).json({ success: true, message: 'Logged out successfully' })
+    res.clearCookie("token", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax"
+    });
+    return res.status(200).json({
+      message: "Logged out successfully.",
+      success: true
+    });
   } catch (error) {
-    return res.status(500).json({ success: false, message: 'Failed to logout', errors: error })
+    return res.status(500).json({ success: false, message: "Failed to logout", errors: error });
   }
 }
